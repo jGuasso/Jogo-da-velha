@@ -87,6 +87,9 @@ int main(){
         //Substitui os valores na tabela
         jogo[x][y]=vez;
 
+        //Limpa o terminal
+        system("cls");
+
         //verifica se ganhou
         cont = 0;
         while(cont!=3){
