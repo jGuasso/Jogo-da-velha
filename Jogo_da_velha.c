@@ -14,18 +14,18 @@ int main(){
         printf("\tJogo da Velha");
         while (ganhou != 0) {
             printf("\n\n\tMapa (utiliza o padrao do Num Lock)\n\n");
-            printf("7|8|9\n");
-            printf("-----\n");
-            printf("4|5|6\n");
-            printf("-----\n");
-            printf("1|2|3\n\n");
+            printf(" 7 | 8 | 9 \n");
+            printf("-----------\n");
+            printf(" 4 | 5 | 6 \n");
+            printf("-----------\n");
+            printf(" 1 | 2 | 3 \n\n");
             //montar o tabuleiro
             printf("\nVez de %c", vez);
-            printf("\n\t%c|%c|%c", jogo[0][0], jogo[0][1], jogo[0][2]);//0|0|0
-            printf("\n\t-----");                                    //-----
-            printf("\n\t%c|%c|%c", jogo[1][0], jogo[1][1], jogo[1][2]);//0|0|0
-            printf("\n\t-----");                                    //-----
-            printf("\n\t%c|%c|%c", jogo[2][0], jogo[2][1], jogo[2][2]);//0|0|0
+            printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);//0|0|0
+            printf("\n\t-----------");                                    //-----
+            printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);//0|0|0
+            printf("\n\t-----------");                                    //-----
+            printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);//0|0|0
 
             //Pegar a posicao
 
@@ -100,18 +100,22 @@ int main(){
                 if (jogo[cont][0] == jogo[cont][1] && jogo[cont][1] == jogo[cont][2] && jogo[cont][0] != ' ') {//Horizontal
                     printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
                     ganhou = 0;
+                    break;
                 }
                 else if (jogo[0][cont] == jogo[1][cont] && jogo[1][cont] == jogo[2][cont] && jogo[0][cont] != ' ') {//Vertical
                     printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
                     ganhou = 0;
+                    break;
                 }
                 else if (jogo[0][0] == jogo[1][1] && jogo[1][1] == jogo[2][2] && jogo[1][1] != ' ') {//Diagonal principal
                     printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
                     ganhou = 0;
+                    break;
                 }
                 else if (jogo[0][2] == jogo[1][1] && jogo[1][1] == jogo[2][0] && jogo[1][1] != ' ') {//Diagonal segundaria
                     printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
                     ganhou = 0;
+                    break;
                 }
                 cont++;
             }
@@ -146,14 +150,14 @@ int main(){
             }
         }
         //Exibe o placar
-        printf("\n\tPLACAR\n     x[%d] : [%d]o", placar[0], placar[1]);
+        printf("\n\t   PLACAR\n        x[%d] : [%d]o\n", placar[0], placar[1]);
 
         //Mostra o Tabuleiro no  final
-        printf("\n\t%c|%c|%c", jogo[0][0], jogo[0][1], jogo[0][2]);
-        printf("\n\t-----");
-        printf("\n\t%c|%c|%c", jogo[1][0], jogo[1][1], jogo[1][2]);
-        printf("\n\t-----");
-        printf("\n\t%c|%c|%c\n\n", jogo[2][0], jogo[2][1], jogo[2][2]);
+        printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);
+        printf("\n\t-----------");
+        printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);
+        printf("\n\t-----------");
+        printf("\n\t %c | %c | %c \n\n", jogo[2][0], jogo[2][1], jogo[2][2]);
 
         //pergunta se querem jogar novamente
 
