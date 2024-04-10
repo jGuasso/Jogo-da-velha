@@ -1,31 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Função que mostra o tabuleiro
+void tabuleiro(char jogo[3][3]){
+    printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);
+    printf("\n\t-----------");
+    printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);
+    printf("\n\t-----------");
+    printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);
+    return;
+}
+
 //Projeto de jogo da velha
 int main(){
     //Variaveis
     int ganhou = 1, x, y, pos, cont, velha, ok = 0, dnv = 0, placar[2] = {0, 0}, ver = 0;
-    char vez = 'x', cDnv, jogo[3][3] = {
+    char vez = 'x', cDnv;
+    char mapa[3][3] = {
+        {'7', '8', '9'},
+        {'4', '5', '6'},
+        {'1', '2', '3'}
+    };
+    char jogo[3][3] = {
         {' ', ' ', ' '},
         {' ', ' ', ' '},
         {' ', ' ', ' '}
     };
+
     while (dnv == 0) {
         printf("\tJogo da Velha");
         while (ganhou != 0) {
+
+            //Monta o tabuleiro mapeado
             printf("\n\n\tMapa (utiliza o padrao do Num Lock)\n\n");
-            printf(" 7 | 8 | 9 \n");
-            printf("-----------\n");
-            printf(" 4 | 5 | 6 \n");
-            printf("-----------\n");
-            printf(" 1 | 2 | 3 \n\n");
+            tabuleiro(mapa);
+            putchar('\n');
+
             //montar o tabuleiro
             printf("\nVez de %c", vez);
-            printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);//0|0|0
-            printf("\n\t-----------");                                    //-----
-            printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);//0|0|0
-            printf("\n\t-----------");                                    //-----
-            printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);//0|0|0
+            tabuleiro(jogo);
 
             //Pegar a posicao
 
@@ -150,20 +163,16 @@ int main(){
             }
         }
         //Exibe o placar
-        printf("\n\t   PLACAR\n        x[%d] : [%d]o\n", placar[0], placar[1]);
+        printf("\n\t   PLACAR\n        x[%d] : [%d]o\n\a", placar[0], placar[1]);
 
         //Mostra o Tabuleiro no  final
-        printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);
-        printf("\n\t-----------");
-        printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);
-        printf("\n\t-----------");
-        printf("\n\t %c | %c | %c \n\n", jogo[2][0], jogo[2][1], jogo[2][2]);
+        tabuleiro(jogo);
 
         //pergunta se querem jogar novamente
 
         do {
             printf("\nDeseja jogar novamente?(s/n)\n");
-            scanf(" %c", &cDnv); // Note o espaço antes de %c para consumir o caractere de nova linha deixado pelo scanf anterior
+            cDnv = getchar();
 
             if (cDnv == 's' || cDnv == 'S') {
                 dnv = 0;
