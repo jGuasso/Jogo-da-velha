@@ -11,12 +11,75 @@ void tabuleiro(char jogo[3][3]){
     return;
 }
 
+//Função que retorna a posição
+void posicao(int *x, int *y, char jogo[3][3]){
+    int pos, ok=0;
+    do {
+            printf("\n\nDigite a posicao:");
+            scanf("%d", &pos);
+            getchar(); // Limpa o buffer de entrada
+            //traduzir a posicao
+            switch (pos) {
+            case 7:
+                *x = 0;
+                *y = 0;
+                break;
+            case 8:
+                *x = 0;
+                *y = 1;
+                break;
+            case 9:
+                *x = 0;
+                *y = 2;
+                break;
+            case 4:
+                *x = 1;
+                *y = 0;
+                break;
+            case 5:
+                *x = 1;
+                *y = 1;
+                break;
+            case 6:
+                *x = 1;
+                *y = 2;
+                break;
+            case 1:
+                *x = 2;
+                *y = 0;
+                break;
+            case 2:
+                *x = 2;
+                *y = 1;
+                break;
+            case 3:
+                *x = 2;
+                *y = 2;
+                break;
+            default:
+                break;
+            }
+    //Verifica se a entrada e valida
+            if (jogo[*x][*y] != ' ') {
+                printf("\n\nEntrada Invalida\n");
+                ok = 1;
+            }
+            else if (pos < 1 || pos > 9) {
+                printf("\n\nEntrada invalida\n");
+                ok = 1;
+            }
+            else {
+                ok = 0;
+            }
+        } while (ok != 0);
+}
+
 //Projeto de jogo da velha
 int main(){
     //Variaveis
-    int ganhou = 1, x, y, pos, cont, velha, ok = 0, dnv = 0, placar[2] = {0, 0}, ver = 0;
+    int ganhou = 1, x, y, cont, velha, dnv = 0, placar[2] = {0, 0}, ver = 0;
     char vez = 'x', cDnv;
-    char mapa[3][3] = {
+    char mapa[3][3] = { //sistema do numpad
         {'7', '8', '9'},
         {'4', '5', '6'},
         {'1', '2', '3'}
@@ -42,64 +105,7 @@ int main(){
 
             //Pegar a posicao
 
-            do {
-                printf("\n\nDigite a posicao:");
-                scanf("%d", &pos);
-                getchar(); // Limpa o buffer de entrada
-                //traduzir a posicao
-                switch (pos) {
-                case 7:
-                    x = 0;
-                    y = 0;
-                    break;
-                case 8:
-                    x = 0;
-                    y = 1;
-                    break;
-                case 9:
-                    x = 0;
-                    y = 2;
-                    break;
-                case 4:
-                    x = 1;
-                    y = 0;
-                    break;
-                case 5:
-                    x = 1;
-                    y = 1;
-                    break;
-                case 6:
-                    x = 1;
-                    y = 2;
-                    break;
-                case 1:
-                    x = 2;
-                    y = 0;
-                    break;
-                case 2:
-                    x = 2;
-                    y = 1;
-                    break;
-                case 3:
-                    x = 2;
-                    y = 2;
-                    break;
-                default:
-                    break;
-                }
-                //Verifica se a entrada e valida
-                if (jogo[x][y] != ' ') {
-                    printf("\n\nEntrada Invalida\n");
-                    ok = 1;
-                }
-                else if (pos < 1 || pos > 9) {
-                    printf("\n\nEntrada invalida\n");
-                    ok = 1;
-                }
-                else {
-                    ok = 0;
-                }
-            } while (ok != 0);
+            posicao(&x,&y,jogo);
 
             //Substitui os valores na tabela
             jogo[x][y] = vez;
