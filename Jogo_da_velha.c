@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 //Função que mostra o tabuleiro
-void tabuleiro(char jogo[3][3]){
+void tabuleiro(char jogo[3][3])
+{
     printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);
     printf("\n\t-----------");
     printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);
@@ -12,7 +13,8 @@ void tabuleiro(char jogo[3][3]){
 }
 
 //Função que retorna a posição
-void posicao(int *x, int *y, char jogo[3][3]){
+void posicao(int *x, int *y, char jogo[3][3])
+{
     int pos, ok=0;
     do {
             printf("\n\nDigite a posicao:");
@@ -74,10 +76,59 @@ void posicao(int *x, int *y, char jogo[3][3]){
         } while (ok != 0);
 }
 
+//Função que verifica quem ganhou
+int verifica_ganhador(char jogo[3][3], char vez)
+{
+    int cont;
+    for(cont = 0;cont<3;cont++) {
+        if (jogo[cont][0] == jogo[cont][1] && jogo[cont][1] == jogo[cont][2] && jogo[cont][0] != ' ') {//Horizontal
+            printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
+            return 0;
+        }
+        else if (jogo[0][cont] == jogo[1][cont] && jogo[1][cont] == jogo[2][cont] && jogo[0][cont] != ' ') {//Vertical
+            printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
+            return 0;
+        }
+        else if (jogo[0][0] == jogo[1][1] && jogo[1][1] == jogo[2][2] && jogo[1][1] != ' ') {//Diagonal principal
+            printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
+            return 0;
+        }
+        else if (jogo[0][2] == jogo[1][1] && jogo[1][1] == jogo[2][0] && jogo[1][1] != ' ') {//Diagonal segundaria
+            printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
+            return 0;
+        }
+    }
+}
+
+//Função que pergunta se o jogo deve ser reiniciado
+int jogar_dnv()
+{
+    char cDnv=' ';
+    int ver=1;
+    do
+    {
+        printf("\nDeseja jogar novamente?(s/n)\n");
+        cDnv = getchar();
+
+        if (cDnv == 's' || cDnv == 'S') {
+            return 0;
+            ver=0;
+        }
+        else if (cDnv == 'n' || cDnv == 'N') {
+            return 1;
+            ver=0;
+        }
+        else {
+            ver = 1;
+        }
+    } while (ver == 1);
+}
+
 //Projeto de jogo da velha
-int main(){
+int main()
+{
     //Variaveis
-    int ganhou = 1, x, y, cont, velha, dnv = 0, placar[2] = {0, 0}, ver = 0;
+    int ganhou = 1, x, y, velha, dnv = 0, placar[2] = {0, 0};
     char vez = 'x', cDnv;
     char mapa[3][3] = { //sistema do numpad
         {'7', '8', '9'},
@@ -92,10 +143,9 @@ int main(){
 
     while (dnv == 0) {
         printf("\tJogo da Velha");
-        while (ganhou != 0) {
 
             //Monta o tabuleiro mapeado
-            printf("\n\n\tMapa (utiliza o padrao do Num Lock)\n\n");
+            printf("\n\n\tMapa (utiliza o padrao do NumPad)\n\n");
             tabuleiro(mapa);
             putchar('\n');
 
@@ -104,7 +154,6 @@ int main(){
             tabuleiro(jogo);
 
             //Pegar a posicao
-
             posicao(&x,&y,jogo);
 
             //Substitui os valores na tabela
@@ -114,30 +163,8 @@ int main(){
             system("cls");
 
             //verifica se ganhou
-            cont = 0;
-            while (cont != 3) {
-                if (jogo[cont][0] == jogo[cont][1] && jogo[cont][1] == jogo[cont][2] && jogo[cont][0] != ' ') {//Horizontal
-                    printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
-                    ganhou = 0;
-                    break;
-                }
-                else if (jogo[0][cont] == jogo[1][cont] && jogo[1][cont] == jogo[2][cont] && jogo[0][cont] != ' ') {//Vertical
-                    printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
-                    ganhou = 0;
-                    break;
-                }
-                else if (jogo[0][0] == jogo[1][1] && jogo[1][1] == jogo[2][2] && jogo[1][1] != ' ') {//Diagonal principal
-                    printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
-                    ganhou = 0;
-                    break;
-                }
-                else if (jogo[0][2] == jogo[1][1] && jogo[1][1] == jogo[2][0] && jogo[1][1] != ' ') {//Diagonal segundaria
-                    printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
-                    ganhou = 0;
-                    break;
-                }
-                cont++;
-            }
+            ganhou = verifica_ganhador(jogo, vez);
+
             //Muda o placar se ganhou
             if (ganhou == 0 && vez == 'x') {
                 placar[0] += 1;
@@ -167,39 +194,22 @@ int main(){
             else {
                 vez = 'x';
             }
-        }
-        //Exibe o placar
-        printf("\n\t   PLACAR\n        x[%d] : [%d]o\n\a", placar[0], placar[1]);
+        if(ganhou == 0){
+            //Exibe o placar
+            printf("\n\t   PLACAR\n        x[%d] : [%d]o\n\a", placar[0], placar[1]);
 
-        //Mostra o Tabuleiro no  final
-        tabuleiro(jogo);
+            //Mostra o Tabuleiro no  final
+            tabuleiro(jogo);
 
-        //pergunta se querem jogar novamente
+            //pergunta se querem jogar novamente
+            dnv=jogar_dnv();
 
-        do {
-            printf("\nDeseja jogar novamente?(s/n)\n");
-            cDnv = getchar();
-
-            if (cDnv == 's' || cDnv == 'S') {
-                dnv = 0;
-                ver=0;
-                ganhou=1;
-            }
-            else if (cDnv == 'n' || cDnv == 'N') {
-                dnv = 1;
-                ver=0;
-            }
-            else {
-                ver = 1;
-            }
-
-        } while (ver == 1);
-        ver = 0;
-        system("cls");
-        //limpa o tabuleiro;
-        for (x = 0; x < 3; x++) {
-            for (y = 0; y < 3; y++) {
-                jogo[x][y] = ' ';
+            system("cls");
+            //limpa o tabuleiro;
+            for (x = 0; x < 3; x++) {
+                for (y = 0; y < 3; y++) {
+                    jogo[x][y] = ' ';
+                }
             }
         }
     }
