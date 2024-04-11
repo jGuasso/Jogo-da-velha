@@ -124,6 +124,21 @@ int jogar_dnv()
     } while (ver == 1);
 }
 
+//Função que verifica se deu velha
+int verifica_velha(int ganhou, char jogo[3][3]){
+    int x,y;
+    if (ganhou != 0) {
+        for (x = 0; x < 3; x++) {
+            for (y = 0; y < 3; y++) {
+                if (jogo[x][y] == ' ') {
+                    return 0;
+                }
+            }
+        }
+    return 1;
+    }
+}
+
 //Projeto de jogo da velha
 int main()
 {
@@ -173,16 +188,8 @@ int main()
                 placar[1] += 1;
             }
             //Verifica se deu velha
-            if (ganhou != 0) {
-                velha = 1;
-            }
-            for (x = 0; x < 3; x++) {
-                for (y = 0; y < 3; y++) {
-                    if (jogo[x][y] == ' ') {
-                        velha = 0;
-                    }
-                }
-            }
+            velha = verifica_velha(ganhou, jogo);
+
             if (velha == 1) {
                 printf("\nOps, deu velha, joguem outra!!\n");
                 ganhou = 0;
