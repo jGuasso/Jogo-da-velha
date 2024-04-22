@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 //Função que mostra o tabuleiro
 void tabuleiro(char jogo[3][3])
 {
-    printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);
-    printf("\n\t-----------");
-    printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);
-    printf("\n\t-----------");
-    printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);
+    printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);// 7 | 8 | 9
+    printf("\n\t-----------");                                       //-----------
+    printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);// 4 | 5 | 6
+    printf("\n\t-----------");                                       //-----------
+    printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);// 1 | 2 | 3
     return;
 }
 
@@ -139,11 +140,144 @@ int verifica_velha(int ganhou, char jogo[3][3]){
     }
 }
 
+//Função posição IA
+void posicao_ia(int *x, int *y, char jogo[3][3]){
+    int i,j;
+    char linha[3],letra='o';
+    /**Ganhar**//**Não perder**/
+    /* horizontal*/
+    while(letra!='a'){
+        for(i=0;i<=2;i++){
+            linha[0]=' ';
+            linha[1]=letra;
+            linha[2]=letra;
+            for(j=0;j<=2;j++){
+                if(jogo[i][0]==linha[0] && jogo[i][1]==linha[1] && jogo[i][2]==linha[2]){
+                    *y=j;
+                    *x=i;
+                    return;
+                }
+                linha[2]=linha[1];
+                linha[1]=linha[0];
+                linha[0]=letra;
+            }
+        }
+        /* vertical*/
+        for(i=0;i<=2;i++){
+            linha[0]=' ';
+            linha[1]=letra;
+            linha[2]=letra;
+            for(j=0;j<=2;j++){
+                if(jogo[0][i]==linha[0] && jogo[1][i]==linha[1] && jogo[2][i]==linha[2]){
+                    *y=i;
+                    *x=j;
+                    return;
+                }
+                linha[2]=linha[1];
+                linha[1]=linha[0];
+                linha[0]=letra;
+            }
+        }
+        /* diagonal'\'*/
+        linha[0]=' ';
+        linha[1]=letra;
+        linha[2]=letra;
+        for(j=0;j<=2;j++){
+            if(jogo[0][0]==linha[0] && jogo[1][1]==linha[1] && jogo[2][2]==linha[2]){
+                *x=j;
+                *y=j;
+                return;
+            }
+            linha[2]=linha[1];
+            linha[1]=linha[0];
+            linha[0]=letra;
+        }
+        /* diagonal'/'*/
+        linha[0]=' ';
+        linha[1]=letra;
+        linha[2]=letra;
+        for(j=0;j<=2;j++){
+            if(jogo[0][2]==linha[0] && jogo[1][1]==linha[1] && jogo[2][0]==linha[2]){
+                *x=j;
+                *y=2-j;
+                return;
+            }
+            linha[2]=linha[1];
+            linha[1]=linha[0];
+            linha[0]=letra;
+        }
+        if(letra=='o'){
+            letra='x';
+        }else{
+            letra='a';
+        }
+    }
+    /**Ponto Futuro**/
+
+    /**Ponto Aleatório**/
+    srand(time(NULL));
+    int pos,ok=0;
+    do{
+        pos=rand()%10;
+        switch (pos) {
+            case 7:
+                *x = 0;
+                *y = 0;
+                break;
+            case 8:
+                *x = 0;
+                *y = 1;
+                break;
+            case 9:
+                *x = 0;
+                *y = 2;
+                break;
+            case 4:
+                *x = 1;
+                *y = 0;
+                break;
+            case 5:
+                *x = 1;
+                *y = 1;
+                break;
+            case 6:
+                *x = 1;
+                *y = 2;
+                break;
+            case 1:
+                *x = 2;
+                *y = 0;
+                break;
+            case 2:
+                *x = 2;
+                *y = 1;
+                break;
+            case 3:
+                *x = 2;
+                *y = 2;
+                break;
+            default:
+                break;
+            }
+    //Verifica se a entrada e valida
+            if (jogo[*x][*y] != ' ') {
+                printf("\n\nEntrada Invalida\n");
+                ok = 1;
+            }
+            else if (pos < 1 || pos > 9) {
+                ok = 1;
+            }
+            else {
+                ok = 0;
+            }
+        } while (ok != 0);
+    }
+
 //Projeto de jogo da velha
 int main()
 {
     //Variaveis
-    int ganhou = 1, x, y, velha, dnv = 0, placar[2] = {0, 0};
+    int jogadores, ganhou = 1, x, y, velha, dnv = 0, placar[2] = {0, 0};
     char vez = 'x', cDnv;
     char mapa[3][3] = { //sistema do numpad
         {'7', '8', '9'},
@@ -155,6 +289,11 @@ int main()
         {' ', ' ', ' '},
         {' ', ' ', ' '}
     };
+    //Número de Jogadores
+    do{
+        printf("Digite o numero de jogadores:  (1 ou 2)\n");
+        scanf("%d",&jogadores);
+    }while(jogadores!=1&&jogadores!=2);
 
     while (dnv == 0) {
         printf("\tJogo da Velha");
@@ -169,7 +308,12 @@ int main()
             tabuleiro(jogo);
 
             //Pegar a posicao
-            posicao(&x,&y,jogo);
+                /*1 Jogador*/
+            if(jogadores==1&&vez=='o'){
+                posicao_ia(&x,&y,jogo);
+            }else{
+                posicao(&x,&y,jogo);
+            }
 
             //Substitui os valores na tabela
             jogo[x][y] = vez;
