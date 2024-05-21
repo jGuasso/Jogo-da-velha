@@ -2,82 +2,46 @@
 #include <stdlib.h>
 #include <time.h>
 
-//Função que mostra o tabuleiro
 void tabuleiro(char jogo[3][3])
 {
-    printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);// 7 | 8 | 9
-    printf("\n\t-----------");                                       //-----------
-    printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);// 4 | 5 | 6
-    printf("\n\t-----------");                                       //-----------
-    printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);// 1 | 2 | 3
+    printf("\n\t %c | %c | %c ", jogo[0][0], jogo[0][1], jogo[0][2]);
+    printf("\n\t-----------");
+    printf("\n\t %c | %c | %c ", jogo[1][0], jogo[1][1], jogo[1][2]);
+    printf("\n\t-----------");
+    printf("\n\t %c | %c | %c ", jogo[2][0], jogo[2][1], jogo[2][2]);
     return;
 }
 
-//Função que retorna a posição
 void posicao(int *x, int *y, char jogo[3][3])
 {
-    int pos, ok=0;
+    int pos, ok = 0;
     do {
-            printf("\n\nDigite a posicao:");
-            scanf("%d", &pos);
-            getchar(); // Limpa o buffer de entrada
-            //traduzir a posicao
-            switch (pos) {
-            case 7:
-                *x = 0;
-                *y = 0;
-                break;
-            case 8:
-                *x = 0;
-                *y = 1;
-                break;
-            case 9:
-                *x = 0;
-                *y = 2;
-                break;
-            case 4:
-                *x = 1;
-                *y = 0;
-                break;
-            case 5:
-                *x = 1;
-                *y = 1;
-                break;
-            case 6:
-                *x = 1;
-                *y = 2;
-                break;
-            case 1:
-                *x = 2;
-                *y = 0;
-                break;
-            case 2:
-                *x = 2;
-                *y = 1;
-                break;
-            case 3:
-                *x = 2;
-                *y = 2;
-                break;
-            default:
-                break;
-            }
-    //Verifica se a entrada e valida
-            if (jogo[*x][*y] != ' ') {
-                printf("\n\nEntrada Invalida\n");
-                ok = 1;
-            }
-            else if (pos < 1 || pos > 9) {
-                printf("\n\nEntrada invalida\n");
-                ok = 1;
-            }
-            else {
-                ok = 0;
-            }
-        } while (ok != 0);
+        printf("\n\nDigite a posicao:");
+        scanf("%d", &pos);
+        getchar();
+        switch (pos) {
+            case 7: *x = 0; *y = 0; break;
+            case 8: *x = 0; *y = 1; break;
+            case 9: *x = 0; *y = 2; break;
+            case 4: *x = 1; *y = 0; break;
+            case 5: *x = 1; *y = 1; break;
+            case 6: *x = 1; *y = 2; break;
+            case 1: *x = 2; *y = 0; break;
+            case 2: *x = 2; *y = 1; break;
+            case 3: *x = 2; *y = 2; break;
+            default: break;
+        }
+        if (jogo[*x][*y] != ' ' || pos < 1 || pos > 9) {
+            printf("\n\nEntrada Invalida\n");
+            ok = 1;
+        }
+        else {
+            ok = 0;
+        }
+    } while (ok != 0);
 }
 
-//Função que verifica quem ganhou
+//Funï¿½ï¿½o que verifica quem ganhou
 int verifica_ganhador(char jogo[3][3], char vez)
 {
     int cont;
@@ -99,33 +63,32 @@ int verifica_ganhador(char jogo[3][3], char vez)
             return 0;
         }
     }
+    return 1; // Simulando que o jogo ainda nÃ£o acabou
 }
 
-//Função que pergunta se o jogo deve ser reiniciado
+//Funï¿½ï¿½o que pergunta se o jogo deve ser reiniciado
 int jogar_dnv()
 {
-    char cDnv=' ';
-    int ver=1;
-    do
-    {
+    char cDnv;
+    int ver;
+    do {
         printf("\nDeseja jogar novamente?(s/n)\n");
         cDnv = getchar();
-
+        getchar(); // Consumir o '\n' pendente
         if (cDnv == 's' || cDnv == 'S') {
             return 0;
-            ver=0;
         }
         else if (cDnv == 'n' || cDnv == 'N') {
             return 1;
-            ver=0;
         }
         else {
             ver = 1;
         }
     } while (ver == 1);
+    return 1;
 }
 
-//Função que verifica se deu velha
+//Funï¿½ï¿½o que verifica se deu velha
 int verifica_velha(int ganhou, char jogo[3][3]){
     int x,y;
     if (ganhou != 0) {
@@ -136,15 +99,16 @@ int verifica_velha(int ganhou, char jogo[3][3]){
                 }
             }
         }
-    return 1;
+        return 1;
     }
+    return 0; // Simulando que o jogo ainda nÃ£o acabou
 }
 
-//Função posição IA
+//Funï¿½ï¿½o posiï¿½ï¿½o IA
 void posicao_ia(int *x, int *y, char jogo[3][3]){
     int i,j;
     char linha[3],letra='o';
-    /**Ganhar**//**Não perder**/
+    /**Ganhar**//**Nï¿½o perder**/
     /* horizontal*/
     while(letra!='a'){
         for(i=0;i<=2;i++){
@@ -214,50 +178,22 @@ void posicao_ia(int *x, int *y, char jogo[3][3]){
     }
     /**Ponto Futuro**/
 
-    /**Ponto Aleatório**/
+    /**Ponto Aleatï¿½rio**/
     srand(time(NULL));
     int pos,ok=0;
     do{
         pos=rand()%10;
         switch (pos) {
-            case 7:
-                *x = 0;
-                *y = 0;
-                break;
-            case 8:
-                *x = 0;
-                *y = 1;
-                break;
-            case 9:
-                *x = 0;
-                *y = 2;
-                break;
-            case 4:
-                *x = 1;
-                *y = 0;
-                break;
-            case 5:
-                *x = 1;
-                *y = 1;
-                break;
-            case 6:
-                *x = 1;
-                *y = 2;
-                break;
-            case 1:
-                *x = 2;
-                *y = 0;
-                break;
-            case 2:
-                *x = 2;
-                *y = 1;
-                break;
-            case 3:
-                *x = 2;
-                *y = 2;
-                break;
-            default:
-                break;
+            case 7: *x = 0; *y = 0; break;
+            case 8: *x = 0; *y = 1; break;
+            case 9: *x = 0; *y = 2; break;
+            case 4: *x = 1; *y = 0; break;
+            case 5: *x = 1; *y = 1; break;
+            case 6: *x = 1; *y = 2; break;
+            case 1: *x = 2; *y = 0; break;
+            case 2: *x = 2; *y = 1; break;
+            case 3: *x = 2; *y = 2; break;
+            default: break;
             }
     //Verifica se a entrada e valida
             if (jogo[*x][*y] != ' ') {
@@ -278,7 +214,7 @@ int main()
 {
     //Variaveis
     int jogadores, ganhou = 1, x, y, velha, dnv = 0, placar[2] = {0, 0};
-    char vez = 'x', cDnv;
+    char vez = 'x';
     char mapa[3][3] = { //sistema do numpad
         {'7', '8', '9'},
         {'4', '5', '6'},
@@ -289,7 +225,7 @@ int main()
         {' ', ' ', ' '},
         {' ', ' ', ' '}
     };
-    //Número de Jogadores
+    //Nï¿½mero de Jogadores
     do{
         printf("Digite o numero de jogadores:  (1 ou 2)\n");
         scanf("%d",&jogadores);
