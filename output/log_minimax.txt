@@ -1,0 +1,2 @@
+[0][2] = -10 pontos[2][2] = 0 pontos
+maior = 9

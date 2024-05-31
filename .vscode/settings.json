@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "tabuleiro.h": "c"
+        "tabuleiro.h": "c",
+        "verifica.h": "c",
+        "minimax.h": "c",
+        "locale.h": "c"
     }
 }

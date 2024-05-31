@@ -1,12 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tabuleiro.h"
-#include "minimax.h"//prototipo
 #include "verifica.h"
+#include "ansi_colors.h"
+
+//menu_cores
+void menu_cores(){
+    int seletor;
+    do
+    {
+        printf("Escolha a  cor:\n");
+        printf(TEXT_BLUE BG_CYAN"1 - Jogo assim\n");
+        printf(TEXT_RED BG_H_PURPLE"2 - Jogo assim\n");
+        printf(TEXT_WHITE BG_BLACK"3 - Jogo assim\n");
+        printf(TEXT_YELLOW BG_GREEN"4 - Jogo assim\n");
+        printf(TEXT_H_PURPLE BG_RED"5 - Jogo assim\n");
+        printf(TEXT_BLACK BG_WHITE"6 - Jogo assim\n");
+        printf(TEXT_H_BLUE BG_H_YELLOW"7 - Jogo assim\n");
+        printf(TEXT_H_GREEN BG_GREEN"8 - Jogo assim\n");
+        printf(TEXT_CYAN BG_H_CYAN"9 - Jogo assim\n");
+        printf(RESET);
+        scanf("%d",&seletor);
+        switch(seletor){
+            case 1:
+                    printf(TEXT_BLUE BG_CYAN);
+                break;
+            case 2:
+                    printf(TEXT_RED BG_H_PURPLE);
+                break;
+            case 3:
+                    printf(TEXT_WHITE BG_BLACK);
+                break;
+            case 4:
+                    printf(TEXT_YELLOW BG_GREEN);
+                break;
+            case 5:
+                    printf(TEXT_H_PURPLE BG_RED);
+                break;
+            case 6:
+                    printf(TEXT_BLACK BG_WHITE);
+                break;
+            case 7:
+                    printf(TEXT_H_BLUE BG_H_YELLOW);
+                break;
+            case 8:
+                    printf(TEXT_H_GREEN BG_GREEN);
+                break;
+            case 9:
+                    printf(TEXT_CYAN BG_H_CYAN);
+                break;
+        }
+        system("cls");
+    } while (seletor<1||seletor>9);
+}
 
 //Projeto de jogo da velha
 int main()
 {
+
     //Variaveis
     int jogadores, ganhou = 1, x, y, velha, dnv = 0, placar[2] = {0, 0};
     char vez = 'x';
@@ -20,14 +71,17 @@ int main()
         {' ', ' ', ' '},
         {' ', ' ', ' '}
     };
+
+    //definir a cor do jogo
+    menu_cores();
+
     //N�mero de Jogadores
     do{
         printf("Digite o numero de jogadores:  (1 ou 2)\n");
         scanf("%d",&jogadores);
     }while(jogadores!=1 && jogadores!=2);
-
+	
     while (dnv == 0) {
-        system("color 9F");
         printf("\tJogo da Velha");
 
             //Monta o tabuleiro mapeado
