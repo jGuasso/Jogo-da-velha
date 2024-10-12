@@ -3,6 +3,8 @@
         "tabuleiro.h": "c",
         "verifica.h": "c",
         "minimax.h": "c",
-        "locale.h": "c"
+        "locale.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c"
     }
 }

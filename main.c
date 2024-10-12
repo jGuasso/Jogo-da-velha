@@ -7,9 +7,10 @@
 //menu_cores
 void menu_cores(){
     int seletor;
+
     do
     {
-        printf("Escolha a  cor:\n");
+        printf("Escolha a  cor:\n\n");
         printf(TEXT_BLUE BG_CYAN"1 - Jogo assim\n");
         printf(TEXT_RED BG_H_PURPLE"2 - Jogo assim\n");
         printf(TEXT_WHITE BG_BLACK"3 - Jogo assim\n");
@@ -54,6 +55,48 @@ void menu_cores(){
     } while (seletor<1||seletor>9);
 }
 
+void mensagem_ganhador(char vez){
+    if (vez == 'o')
+    {
+        printf("  ____                           _                            _     _    ___    _                                                  _ \n");
+        printf(" |  _ \\    __ _   _ __    __ _  | |__     ___   _ __    ___  | |   ( )  / _ \\  ( )   __   __   ___   _ __     ___    ___   _   _  | |\n");
+        printf(" | |_) |  / _` | | '__|  / _` | | '_ \\   / _ \\ | '_ \\  / __| | |   |/  | | | | |/    \\ \\ / /  / _ \\ | '_ \\   / __|  / _ \\ | | | | | |\n");
+        printf(" |  __/  | (_| | | |    | (_| | | |_) | |  __/ | | | | \\__ \\ |_|       | |_| |        \\ V /  |  __/ | | | | | (__  |  __/ | |_| | |_|\n");
+        printf(" |_|      \\__,_| |_|     \\__,_| |_.__/   \\___| |_| |_| |___/ (_)        \\___/          \\_/    \\___| |_| |_|  \\___|  \\___|  \\__,_| (_)\n");
+
+    }
+    else
+    {
+        printf("  ____                           _                            _     _  __  __  _                                                  _ \n");
+        printf(" |  _ \\    __ _   _ __    __ _  | |__     ___   _ __    ___  | |   ( ) \\ \\/ / ( )   __   __   ___   _ __     ___    ___   _   _  | |\n");
+        printf(" | |_) |  / _` | | '__|  / _` | | '_ \\   / _ \\ | '_ \\  / __| | |   |/   \\  /  |/    \\ \\ / /  / _ \\ | '_ \\   / __|  / _ \\ | | | | | |\n");
+        printf(" |  __/  | (_| | | |    | (_| | | |_) | |  __/ | | | | \\__ \\ |_|        /  \\         \\ V /  |  __/ | | | | | (__  |  __/ | |_| | |_|\n");
+        printf(" |_|      \\__,_| |_|     \\__,_| |_.__/   \\___| |_| |_| |___/ (_)       /_/\\_\\         \\_/    \\___| |_| |_|  \\___|  \\___|  \\__,_| (_)\n");
+
+    }
+    
+}
+
+void mensagem_velha(){
+    printf("  ____                                    _   _                               \n");
+    printf(" |  _ \\    ___   _   _    __   __   ___  | | | |__     __ _     _           _ \n");
+    printf(" | | | |  / _ \\ | | | |   \\ \\ / /  / _ \\ | | | '_ \\   / _` |   (_)  _____  (_)\n");
+    printf(" | |_| | |  __/ | |_| |    \\ V /  |  __/ | | | | | | | (_| |    _  |_____|  _ \n");
+    printf(" |____/   \\___|  \\__,_|     \\_/    \\___| |_| |_| |_|  \\__,_|   ( )         ( )\n");
+    printf("                                                               |/          |/ \n");
+
+}
+
+void titulo(){
+    printf("   ___  _____  _____  _____  ______   ___    _   _  _____  _      _   _   ___  \n");
+    printf("  |_  ||  _  ||  __ \\|  _  | |  _  \\ / _ \\  | | | ||  ___|| |    | | | | / _ \\ \n");
+    printf("    | || | | || |  \\/| | | | | | | |/ /_\\ \\ | | | || |__  | |    | |_| |/ /_\\ \\\n");
+    printf("    | || | | || | __ | | | | | | | ||  _  | | | | ||  __| | |    |  _  ||  _  |\n");
+    printf("/\\__/ /\\ \\_/ /| |_\\ \\\\ \\_/ / | |/ / | | | | \\ \\_/ /| |___ | |____| | | || | | |\n");
+    printf("\\____/  \\___/  \\____/ \\___/  |___/  \\_| |_/  \\___/ \\____/ \\_____/\\_| |_/\\_| |_/\n");
+
+}
+
 //Projeto de jogo da velha
 int main()
 {
@@ -61,11 +104,6 @@ int main()
     //Variaveis
     int jogadores, ganhou = 1, x, y, velha, dnv = 0, placar[2] = {0, 0};
     char vez = 'x';
-    char mapa[3][3] = { //sistema do numpad
-        {'7', '8', '9'},
-        {'4', '5', '6'},
-        {'1', '2', '3'}
-    };
     char jogo[3][3] = {
         {' ', ' ', ' '},
         {' ', ' ', ' '},
@@ -73,70 +111,72 @@ int main()
     };
 
     //definir a cor do jogo
+    titulo();
     menu_cores();
 
     //N�mero de Jogadores
     do{
-        printf("Digite o numero de jogadores:  (1 ou 2)\n");
+        titulo();
+        printf("\n\nDigite o numero de jogadores:  (1 ou 2)\n");
         scanf("%d",&jogadores);
     }while(jogadores!=1 && jogadores!=2);
-	
+	system("cls");
     while (dnv == 0) {
-        printf("\tJogo da Velha");
+        titulo();
+        printf("\n");
+        //Monta o tabuleiro mapeado
+        printf("\n\n\tMapa (utiliza o padrao do NumPad)\n\n");
+        mapa();
+        putchar('\n');
 
-            //Monta o tabuleiro mapeado
-            printf("\n\n\tMapa (utiliza o padrao do NumPad)\n\n");
-            tabuleiro(mapa);
-            putchar('\n');
+        //montar o tabuleiro
+        printf("\nVez de %c", vez);
+        tabuleiro(jogo);
 
-            //montar o tabuleiro
-            printf("\nVez de %c", vez);
-            tabuleiro(jogo);
+        //Pegar a posicao
+            /*1 Jogador*/
+        if(jogadores==1&&vez=='o'){
+            posicao_ia(&x,&y,jogo);
+        }else{
+            posicao(&x,&y,jogo);
+        }
 
-            //Pegar a posicao
-                /*1 Jogador*/
-            if(jogadores==1&&vez=='o'){
-                posicao_ia(&x,&y,jogo);
-            }else{
-                posicao(&x,&y,jogo);
-            }
+        //Substitui os valores na tabela
+        jogo[x][y] = vez;
 
-            //Substitui os valores na tabela
-            jogo[x][y] = vez;
+        //Limpa o terminal
+        system("cls");
 
-            //Limpa o terminal
-            system("cls");
+        //verifica se ganhou
+        ganhou = verifica_ganhador(jogo);
+        if (ganhou == 0){
+            mensagem_ganhador(vez);
+        }
 
-            //verifica se ganhou
-            ganhou = verifica_ganhador(jogo);
-            if (ganhou == 0){
-                printf("\n\n\tO %c GANHOUUU\nParabens!!\n", vez);
-            }
+        //Muda o placar se ganhou
+        if (ganhou == 0 && vez == 'x') {
+            placar[0] += 1;
+        }
+        else if (ganhou == 0 && vez == 'o') {
+            placar[1] += 1;
+        }
+        //Verifica se deu velha
+        velha = verifica_velha(ganhou, jogo);
 
-            //Muda o placar se ganhou
-            if (ganhou == 0 && vez == 'x') {
-                placar[0] += 1;
-            }
-            else if (ganhou == 0 && vez == 'o') {
-                placar[1] += 1;
-            }
-            //Verifica se deu velha
-            velha = verifica_velha(ganhou, jogo);
-
-            if (velha == 1) {
-                printf("\nOps, deu velha, joguem outra!!\n");
-                ganhou = 0;
-            }
-            //Troca o jogador
-            if (vez == 'x') {
-                vez = 'o';
-            }
-            else {
-                vez = 'x';
-            }
+        if (velha == 1) {
+            mensagem_velha();
+            ganhou = 0;
+        }
+        //Troca o jogador
+        if (vez == 'x') {
+            vez = 'o';
+        }
+        else {
+            vez = 'x';
+        }
         if(ganhou == 0){
             //Exibe o placar
-            printf("\n\t   PLACAR\n        x[%d] : [%d]o\n\a", placar[0], placar[1]);
+            printf("\n\t\t   PLACAR\n\t        x[%d] : [%d]o\n\a", placar[0], placar[1]);
 
             //Mostra o Tabuleiro no  final
             tabuleiro(jogo);
